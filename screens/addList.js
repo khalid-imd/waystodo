@@ -41,7 +41,7 @@ export default AddList = () => {
             Please Select the Category!
           </FormControl.ErrorMessage>
         </FormControl>
-        <TextArea placeholder="Description" w={270} h={200} />
+        <TextArea placeholder="Description" w="75%" />
       </VStack>
       <Button
         size="sm"

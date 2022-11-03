@@ -14,13 +14,16 @@ import {
 } from "native-base";
 //import NativeBaseIcon from "./components/NativeBaseIcon";
 //import { Platform } from "react-native";
-import Index from "./screens/index";
-import Register from "./screens/register";
-import AddList from "./screens/addList";
-import AddCategories from "./screens/addCategories";
-import ListTodo from "./screens/listTodo";
+// import Index from "./screens/index";
+// import Register from "./screens/register";
+// import AddList from "./screens/addList";
+// import AddCategories from "./screens/addCategories";
+// import ListTodo from "./screens/listTodo";
 import Login from "./screens/login";
-import DetailList from "./screens/detailList";
+// import DetailList from "./screens/detailList";
+import BottomTabs from "./components/bottomTabs";
+import { NavigationContainer } from "@react-navigation/native";
+import Container from "./container";
 // Define the config
 const config = {
   useSystemColorMode: false,
@@ -33,9 +36,13 @@ export const theme = extendTheme({ config });
 export default function App() {
   return (
     <NativeBaseProvider>
+      {/* <NavigationContainer> */}
       {/* <ListTodo /> */}
       {/* <Login /> */}
-      <DetailList />
+      {/* <DetailList /> */}
+      {/* <BottomTabs /> */}
+      {/* </NavigationContainer> */}
+      <Container />
     </NativeBaseProvider>
   );
 }
