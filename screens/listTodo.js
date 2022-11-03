@@ -11,10 +11,12 @@ import {
   CheckIcon,
   Button,
   VStack,
+  Pressable,
 } from "native-base";
 import Profile from "../assets/liststodo-profile.png";
 import StatusPending from "../assets/liststodo-icon-pending.png";
 import StatusChecked from "../assets/liststodo-icon-checked.png";
+import { TabActions } from "@react-navigation/native";
 
 const List = [
   {
@@ -49,7 +51,11 @@ const List = [
   },
 ];
 
-export default ListTodo = () => {
+const Detail = () => {
+  return <Tab.Navigator></Tab.Navigator>;
+};
+
+export default ListTodo = ({ navigation }) => {
   return (
     <ScrollView w="full" mt="10" padding="5">
       <HStack>
@@ -114,47 +120,51 @@ export default ListTodo = () => {
         <VStack>
           {List.map((item) => {
             return (
-              <HStack
-                mb={6}
-                backgroundColor="blue.100"
-                borderRadius={5}
-                padding="3"
+              <Pressable
+                onPress={() => navigation.navigate("DetailList", { item })}
               >
-                <Box>
-                  <Text bold fontSize="xs" w="64">
-                    {item.category} - {item.name}
-                  </Text>
-                  <Text fontSize="2xs" w="64">
-                    Learn Golang to improve fundamentals and familiarize with
-                    coding.
-                  </Text>
-                  <Text fontSize="2xs" w="64" mt={3}>
-                    {item.date}
-                  </Text>
-                </Box>
-                <Box>
-                  <Box
-                    backgroundColor="red.300"
-                    borderRadius={5}
-                    marginRight="5"
-                  >
-                    <Text
-                      fontSize="10px"
-                      color="black"
-                      w={12}
-                      textAlign="center"
-                    >
-                      {item.category}
+                <HStack
+                  mb={6}
+                  backgroundColor="blue.100"
+                  borderRadius={5}
+                  padding="3"
+                >
+                  <Box>
+                    <Text bold fontSize="xs" w="64">
+                      {item.category} - {item.name}
+                    </Text>
+                    <Text fontSize="2xs" w="64">
+                      Learn Golang to improve fundamentals and familiarize with
+                      coding.
+                    </Text>
+                    <Text fontSize="2xs" w="64" mt={3}>
+                      {item.date}
                     </Text>
                   </Box>
-                  <Image
-                    mt={2}
-                    source={item.status}
-                    resizeMode="contain"
-                    alignItems="center"
-                  />
-                </Box>
-              </HStack>
+                  <Box>
+                    <Box
+                      backgroundColor="red.300"
+                      borderRadius={5}
+                      marginRight="5"
+                    >
+                      <Text
+                        fontSize="10px"
+                        color="black"
+                        w={12}
+                        textAlign="center"
+                      >
+                        {item.category}
+                      </Text>
+                    </Box>
+                    <Image
+                      mt={2}
+                      source={item.status}
+                      resizeMode="contain"
+                      alignItems="center"
+                    />
+                  </Box>
+                </HStack>
+              </Pressable>
             );
           })}
         </VStack>

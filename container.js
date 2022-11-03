@@ -9,6 +9,8 @@ import ListTodo from "./screens/listTodo.js";
 import { Ionicons } from "@expo/vector-icons";
 import addList from "./screens/addList.js";
 import addCategories from "./screens/addCategories.js";
+import Login from "./screens/login.js";
+import register from "./screens/register.js";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -64,13 +66,25 @@ export default Container = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Main"
-          component={MyTab}
-          options={{
-            headerShown: false,
-          }}
+          name="index"
+          component={Index}
+          options={{ headerShown: false }}
         />
-        <Stack.Screen name="index" component={Index} />
+        <Stack.Screen
+          name="register"
+          component={register}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="my app"
+          component={MyTab}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

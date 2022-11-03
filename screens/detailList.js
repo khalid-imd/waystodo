@@ -10,14 +10,16 @@ import {
 } from "native-base";
 import StatusChecked from "../assets/liststodo-icon-checked.png";
 
-export default DetailList = () => {
+export default DetailList = ({ route }) => {
+  // const item = route.params.item;
+  console.log("oke item", route);
   return (
     <ScrollView padding={5}>
       <Box backgroundColor="#DAEFFF" borderRadius="5" mt={10} mb={10}>
         <VStack space="4" divider={<Divider />}>
           <HStack px="4" pt="4">
             <Text fontSize="30px" w="64">
-              Golang
+              {/* {item.category} */}
             </Text>
             <Box>
               <Box backgroundColor="red.300" borderRadius={5} marginRight="5">

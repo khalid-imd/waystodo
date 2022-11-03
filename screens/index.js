@@ -3,7 +3,7 @@ import { Box, Button, Image, Text, VStack, Flex } from "native-base";
 import Foto from "../assets/index-image.png";
 import Logo from "../assets/index-waystodo.png";
 
-export default Index = () => {
+export default Index = ({ navigation }) => {
   return (
     <VStack space={40} alignItems="center">
       <VStack alignItems="center" space={10}>
@@ -17,10 +17,21 @@ export default Index = () => {
         </Text>
       </VStack>
       <VStack space={3} alignItems="center">
-        <Button size="sm" variant="subtle" colorScheme="secondary" width={270}>
+        <Button
+          onPress={() => navigation.navigate("login")}
+          size="sm"
+          variant="subtle"
+          colorScheme="secondary"
+          width={270}
+        >
           Login
         </Button>
-        <Button size="sm" variant="subtle" width={270}>
+        <Button
+          onPress={() => navigation.navigate("register")}
+          size="sm"
+          variant="subtle"
+          width={270}
+        >
           Register
         </Button>
       </VStack>
