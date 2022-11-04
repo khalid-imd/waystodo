@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ScrollView,
   Text,
@@ -9,14 +9,14 @@ import {
   Icon,
   Select,
   CheckIcon,
-  Button,
   VStack,
   Pressable,
+  Button,
 } from "native-base";
 import Profile from "../assets/liststodo-profile.png";
 import StatusPending from "../assets/liststodo-icon-pending.png";
 import StatusChecked from "../assets/liststodo-icon-checked.png";
-import { TabActions } from "@react-navigation/native";
+import Tanggal from "../components/datePick.js";
 
 const List = [
   {
@@ -56,6 +56,9 @@ const Detail = () => {
 };
 
 export default ListTodo = ({ navigation }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [date, setDate] = useState();
+
   return (
     <ScrollView w="full" mt="10" padding="5">
       <HStack>
@@ -73,6 +76,7 @@ export default ListTodo = ({ navigation }) => {
         variant="filled"
         width="100%"
         mt={8}
+        mb={2}
         py="1"
         px="1"
         InputLeftElement={
@@ -81,6 +85,23 @@ export default ListTodo = ({ navigation }) => {
       />
 
       <HStack space={2}>
+        <Button
+          variant="outline"
+          onPress={() => setShowModal(true)}
+          iconName="document-text"
+          mt="2"
+          p={0}
+        >
+          <Text color="gray.400">
+            {date ? date.toDateString() : "Select date..."}
+          </Text>
+        </Button>
+        <Tanggal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          date={date}
+          setDate={setDate}
+        />
         <Select
           minWidth="100"
           size="xs"

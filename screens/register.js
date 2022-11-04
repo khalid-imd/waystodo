@@ -1,5 +1,13 @@
 import React from "react";
-import { VStack, Box, Image, Text, Button, Input } from "native-base";
+import {
+  VStack,
+  Box,
+  Image,
+  Text,
+  Button,
+  Input,
+  ScrollView,
+} from "native-base";
 import Icon from "../assets/Login-register-Icon.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
@@ -51,59 +59,61 @@ export default Register = ({ navigation }) => {
   };
 
   return (
-    <VStack space={10} alignItems="center">
-      <VStack alignItems="center" space={10}>
-        <Box alignItems="center">
-          <Image source={Icon} alt="Alternate Text" size="2xl" />
-        </Box>
-        <Text bold fontSize="xl" w="64">
-          Register
-        </Text>
-      </VStack>
-      <VStack space={3} alignItems="center">
-        <Input
-          size="md"
-          type={"email"}
-          placeholder="Email"
-          onChangeText={(value) => handleOnChange("email", value)}
-          value={form.email}
-          width={270}
-        />
-        <Input
-          size="md"
-          placeholder="Name"
-          onChangeText={(value) => handleOnChange("firstName", value)}
-          value={form.firstName}
-          width={270}
-        />
-        <Input
-          type={"password"}
-          size="md"
-          placeholder="Password"
-          onChangeText={(value) => handleOnChange("password", value)}
-          value={form.password}
-          width={270}
-        />
-        <Button
-          onPress={handleOnPress}
-          size="sm"
-          variant="subtle"
-          colorScheme="secondary"
-          width={270}
-        >
-          Register
-        </Button>
-        <Text fontSize="xs" textAlign="center" w="64">
-          Joined Us Before?{" "}
-          <Text
-            onPress={() => navigation.navigate("login")}
-            bold
-            color="red.400"
-          >
-            Login
+    <ScrollView>
+      <VStack space={10} alignItems="center" mt="24">
+        <VStack alignItems="center" space={10}>
+          <Box alignItems="center">
+            <Image source={Icon} alt="Alternate Text" size="2xl" />
+          </Box>
+          <Text bold fontSize="xl" w="64">
+            Register
           </Text>
-        </Text>
+        </VStack>
+        <VStack space={3} alignItems="center">
+          <Input
+            size="md"
+            type={"email"}
+            placeholder="Email"
+            onChangeText={(value) => handleOnChange("email", value)}
+            value={form.email}
+            width={270}
+          />
+          <Input
+            size="md"
+            placeholder="Name"
+            onChangeText={(value) => handleOnChange("firstName", value)}
+            value={form.firstName}
+            width={270}
+          />
+          <Input
+            type={"password"}
+            size="md"
+            placeholder="Password"
+            onChangeText={(value) => handleOnChange("password", value)}
+            value={form.password}
+            width={270}
+          />
+          <Button
+            onPress={handleOnPress}
+            size="sm"
+            variant="subtle"
+            colorScheme="secondary"
+            width={270}
+          >
+            Register
+          </Button>
+          <Text fontSize="xs" textAlign="center" w="64">
+            Joined Us Before?{" "}
+            <Text
+              onPress={() => navigation.navigate("login")}
+              bold
+              color="red.400"
+            >
+              Login
+            </Text>
+          </Text>
+        </VStack>
       </VStack>
-    </VStack>
+    </ScrollView>
   );
 };

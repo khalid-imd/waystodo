@@ -24,6 +24,8 @@ import Login from "./screens/login";
 import BottomTabs from "./components/bottomTabs";
 import { NavigationContainer } from "@react-navigation/native";
 import Container from "./container";
+import DatePick from "./components/datePick";
+import Tanggal from "./components/datePick.js";
 // Define the config
 const config = {
   useSystemColorMode: false,
@@ -43,6 +45,7 @@ export default function App() {
       {/* <BottomTabs /> */}
       {/* </NavigationContainer> */}
       <Container />
+      {/* <Tanggal /> */}
     </NativeBaseProvider>
   );
 }
