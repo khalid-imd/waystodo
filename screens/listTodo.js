@@ -10,57 +10,89 @@ import {
   Select,
   CheckIcon,
   VStack,
+  View,
   Pressable,
   Button,
+  FlatList,
 } from "native-base";
 import Profile from "../assets/liststodo-profile.png";
-import StatusPending from "../assets/liststodo-icon-pending.png";
-import StatusChecked from "../assets/liststodo-icon-checked.png";
+// import StatusPending from "../assets/liststodo-icon-pending.png";
+// import StatusChecked from "../assets/liststodo-icon-checked.png";
 import Tanggal from "../components/datePick.js";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
-const List = [
-  {
-    category: "Study",
-    name: "golang",
-    date: "3 desember 2022",
-    status: StatusPending,
-  },
-  {
-    category: "Home work",
-    name: "mathematic",
-    date: "4 desember 2022",
-    status: StatusChecked,
-  },
-  {
-    category: "Study",
-    name: "HTML",
-    date: "3 desember 2022",
-    status: StatusChecked,
-  },
-  {
-    category: "Study",
-    name: "Javascript",
-    date: "9 desember 2022",
-    status: StatusPending,
-  },
-  {
-    category: "home work",
-    name: "Javascript",
-    date: "9 desember 2022",
-    status: StatusPending,
-  },
-];
-
-const Detail = () => {
-  return <Tab.Navigator></Tab.Navigator>;
-};
+// const List = [
+//   {
+//     category: "Study",
+//     name: "golang",
+//     date: "3 desember 2022",
+//     status: StatusPending,
+//   },
+//   {
+//     category: "Home work",
+//     name: "mathematic",
+//     date: "4 desember 2022",
+//     status: StatusChecked,
+//   },
+//   {
+//     category: "Study",
+//     name: "HTML",
+//     date: "3 desember 2022",
+//     status: StatusChecked,
+//   },
+//   {
+//     category: "Study",
+//     name: "Javascript",
+//     date: "9 desember 2022",
+//     status: StatusPending,
+//   },
+//   {
+//     category: "home work",
+//     name: "Javascript",
+//     date: "9 desember 2022",
+//     status: StatusPending,
+//   },
+// ];
 
 export default ListTodo = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false);
   const [date, setDate] = useState();
+  const [data, setData] = useState();
+  console.log("dataaaaaaaa", data);
+
+  const getDataList = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      console.log("tokeeennnn", token);
+      if (token === null) {
+        navigation.navigate("login");
+      }
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer" + token,
+        },
+      };
+
+      const res = await axios.get(
+        "https://api.v2.kontenbase.com/query/api/v1/a5d9c191-8415-482a-8df3-bb20787a8b23/todolist",
+        config
+      );
+      console.log("resssssssss", res.data);
+      setData(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  React.useEffect(() => {
+    getDataList();
+  }, [data]);
 
   return (
-    <ScrollView w="full" mt="10" padding="5">
+    <View w="full" mt="10" padding="5">
       <HStack>
         <Box>
           <Text bold fontSize="xl" w="64">
@@ -139,24 +171,23 @@ export default ListTodo = ({ navigation }) => {
 
       <Box mt={12}>
         <VStack>
-          {List.map((item) => {
-            return (
-              <Pressable
-                onPress={() => navigation.navigate("DetailList", { item })}
-              >
-                <HStack
-                  mb={6}
-                  backgroundColor="blue.100"
-                  borderRadius={5}
-                  padding="3"
-                >
+          <HStack
+            mb={6}
+            backgroundColor="blue.100"
+            borderRadius={5}
+            padding="3"
+          >
+            <FlatList
+              data={data}
+              key={(item) => item.index}
+              renderItem={({ item }) => (
+                <Pressable>
                   <Box>
                     <Text bold fontSize="xs" w="64">
                       {item.category} - {item.name}
                     </Text>
                     <Text fontSize="2xs" w="64">
-                      Learn Golang to improve fundamentals and familiarize with
-                      coding.
+                      {item.description}
                     </Text>
                     <Text fontSize="2xs" w="64" mt={3}>
                       {item.date}
@@ -184,12 +215,12 @@ export default ListTodo = ({ navigation }) => {
                       alignItems="center"
                     />
                   </Box>
-                </HStack>
-              </Pressable>
-            );
-          })}
+                </Pressable>
+              )}
+            />
+          </HStack>
         </VStack>
       </Box>
-    </ScrollView>
+    </View>
   );
 };

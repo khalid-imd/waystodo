@@ -90,54 +90,52 @@ export default AddCategories = () => {
     getData();
   }, [data]);
 
-  console.log("dataaaaaaaaaaaaa", data);
+  //console.log("dataaaaaaaaaaaaa", data);
 
   return (
-    <ScrollView>
-      <VStack mt="20" padding={5}>
-        <Box>
-          <Text bold fontSize="xl">
-            Add Category
-          </Text>
-          <VStack space={6} alignItems="center" mt={5}>
-            <Input
-              w="full"
-              size="md"
-              placeholder="Name"
-              onChangeText={(value) => handleOnChange("name", value)}
-              value={form.name}
-            />
-            <Button
-              colorScheme="secondary"
-              w="full"
-              size="sm"
-              variant="subtle"
-              onPress={handleOnPress}
-            >
-              Add Category
-            </Button>
-          </VStack>
-        </Box>
-        <Box>
-          <Text mt={16} bold fontSize="xl" w="full">
-            List Category
-          </Text>
-        </Box>
-        <Box>
-          <FlatList
+    <VStack mt="20" padding={5}>
+      <Box>
+        <Text bold fontSize="xl">
+          Add Category
+        </Text>
+        <VStack space={6} alignItems="center" mt={5}>
+          <Input
             w="full"
-            space={2}
-            mt="6"
-            data={data}
-            key={(item) => item.index}
-            renderItem={({ item }) => (
-              <Button size="sm" variant="subtle">
-                {item.name}
-              </Button>
-            )}
+            size="md"
+            placeholder="Name"
+            onChangeText={(value) => handleOnChange("name", value)}
+            value={form.name}
           />
-        </Box>
-      </VStack>
-    </ScrollView>
+          <Button
+            colorScheme="secondary"
+            w="full"
+            size="sm"
+            variant="subtle"
+            onPress={handleOnPress}
+          >
+            Add Category
+          </Button>
+        </VStack>
+      </Box>
+      <Box>
+        <Text mt={16} bold fontSize="xl" w="full">
+          List Category
+        </Text>
+      </Box>
+      <Box>
+        <FlatList
+          w="full"
+          space={2}
+          mt="6"
+          data={data}
+          key={(item) => item.index}
+          renderItem={({ item }) => (
+            <Button size="sm" variant="subtle">
+              {item.name}
+            </Button>
+          )}
+        />
+      </Box>
+    </VStack>
   );
 };

@@ -32,14 +32,17 @@ export default Login = ({ navigation }) => {
           "Content-Type": "application/json",
         },
       };
-
       const body = JSON.stringify(form);
       const response = await axios.post(
-        "https://api.kontenbase.com/query/api/v1/a5d9c191-8415-482a-8df3-bb20787a8b23/auth/login",
+        "https://api.v2.kontenbase.com/query/api/v1/a5d9c191-8415-482a-8df3-bb20787a8b23/auth/login",
         body,
         config
       );
       console.log(response);
+
+      if (response) {
+        await AsyncStorage.setItem("token", response.data.token);
+      }
 
       const value = await AsyncStorage.getItem("token");
       if (value !== null) {

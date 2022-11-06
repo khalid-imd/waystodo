@@ -10,13 +10,49 @@ import {
   WarningOutlineIcon,
   TextArea,
   ScrollView,
+  FlatList,
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import Tanggal from "../components/datePick.js";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default AddList = () => {
   const [showModal, setShowModal] = useState(false);
   const [date, setDate] = useState();
+  const [data, setData] = React.useState([]);
+
+  const getData = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (token === null) {
+        navigation.navigate("Login");
+      }
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      };
+
+      //setDataLoading(true);
+
+      const res = await axios.get(
+        "https://api.kontenbase.com/query/api/v1/a5d9c191-8415-482a-8df3-bb20787a8b23/categories",
+        config
+      );
+      setData(res.data);
+      //setDataLoading(false);
+    } catch (error) {
+      console.log(error);
+      //setDataLoading(false);
+    }
+  };
+
+  React.useEffect(() => {
+    getData();
+  }, [data]);
 
   return (
     <ScrollView>
@@ -37,11 +73,17 @@ export default AddList = () => {
               }}
               mt="1"
             >
-              <Select.Item label="UX Research" value="ux" />
-              <Select.Item label="Web Development" value="web" />
-              <Select.Item label="Cross Platform Development" value="cross" />
-              <Select.Item label="UI Designing" value="ui" />
-              <Select.Item label="Backend Development" value="backend" />
+              {/* <FlatList
+                data={data}
+                key={(item) => item.index}
+                renderItem={({ item }) => ( */}
+
+              {data.map((item) => {
+                return <Select.Item label={item.name} value={item.name} />;
+              })}
+
+              {/* )}
+              /> */}
             </Select>
             <FormControl.ErrorMessage
               leftIcon={<WarningOutlineIcon size="xs" />}
