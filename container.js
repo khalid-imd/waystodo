@@ -11,6 +11,7 @@ import addList from "./screens/addList.js";
 import addCategories from "./screens/addCategories.js";
 import Login from "./screens/login.js";
 import register from "./screens/register.js";
+import DetailList from "./screens/detailList";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -84,6 +85,11 @@ export default Container = () => {
           name="my app"
           component={MyTab}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="detaillist"
+          component={DetailList}
+          //options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

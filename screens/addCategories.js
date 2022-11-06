@@ -120,7 +120,7 @@ export default AddCategories = () => {
           data={data}
           key={(item) => item.index}
           renderItem={({ item }) => (
-            <Button size="sm" variant="subtle">
+            <Button size="sm" variant="solid" mb="5">
               {item.name}
             </Button>
           )}

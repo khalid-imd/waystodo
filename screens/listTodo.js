@@ -11,7 +11,6 @@ import {
   CheckIcon,
   VStack,
   View,
-  Pressable,
   Button,
 } from "native-base";
 import Profile from "../assets/liststodo-profile.png";
@@ -21,43 +20,38 @@ import Tanggal from "../components/datePick.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-// const List = [
-//   {
-//     category: "Study",
-//     name: "golang",
-//     date: "3 desember 2022",
-//     status: StatusPending,
-//   },
-//   {
-//     category: "Home work",
-//     name: "mathematic",
-//     date: "4 desember 2022",
-//     status: StatusChecked,
-//   },
-//   {
-//     category: "Study",
-//     name: "HTML",
-//     date: "3 desember 2022",
-//     status: StatusChecked,
-//   },
-//   {
-//     category: "Study",
-//     name: "Javascript",
-//     date: "9 desember 2022",
-//     status: StatusPending,
-//   },
-//   {
-//     category: "home work",
-//     name: "Javascript",
-//     date: "9 desember 2022",
-//     status: StatusPending,
-//   },
-// ];
-
-export default ListTodo = () => {
+export default ListTodo = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false);
   const [date, setDate] = useState();
   const [data, setData] = React.useState([]);
+  const [dataUser, setDataUser] = React.useState([]);
+
+  const getDataUser = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (token === null) {
+        navigation.navigate("Login");
+      }
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      };
+      const res = await axios.get(
+        "https://api.v2.kontenbase.com/query/api/v1/a5d9c191-8415-482a-8df3-bb20787a8b23/Users",
+        config
+      );
+      setDataUser(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  React.useEffect(() => {
+    getDataUser();
+  }, [dataUser]);
 
   const getData = async () => {
     try {
@@ -72,23 +66,15 @@ export default ListTodo = () => {
           Authorization: "Bearer " + token,
         },
       };
-
-      //setDataLoading(true);
-
       const res = await axios.get(
         "https://api.v2.kontenbase.com/query/api/v1/a5d9c191-8415-482a-8df3-bb20787a8b23/addlist",
         config
       );
       setData(res.data);
-      //console.log(res.data);
-      //setDataLoading(false);
     } catch (error) {
       console.log(error);
-      //setDataLoading(false);
     }
   };
-
-  //console.log("ini dataaaaaaa", data);
   React.useEffect(() => {
     getData();
   }, [data]);
@@ -96,13 +82,15 @@ export default ListTodo = () => {
   return (
     <ScrollView w="full" mt="10" padding="5">
       <HStack>
-        <Box>
+        <Box w="75%">
           <Text bold fontSize="xl" w="64">
             Hi Khalid
           </Text>
-          <Text color="red.400">3000 List</Text>
+          <Text color="red.400">{data.length} List</Text>
         </Box>
-        <Image source={Profile} resizeMode="contain" />
+        <Box w="25%" alignItems="center">
+          <Image source={Profile} resizeMode="contain" />
+        </Box>
       </HStack>
 
       <Input
@@ -184,10 +172,16 @@ export default ListTodo = () => {
                 h="24"
               >
                 <Box w="75%">
-                  <Text bold fontSize="xs">
+                  <Text
+                    bold
+                    fontSize="xs"
+                    onPress={() => navigation.navigate("detaillist", { item })}
+                  >
                     {item.category} - {item.name}
                   </Text>
-                  <Text fontSize="2xs">{item.description}</Text>
+                  <View h="20px">
+                    <Text fontSize="2xs">{item.description}</Text>
+                  </View>
                   <Text fontSize="2xs" mt={3}>
                     12 nov
                   </Text>
