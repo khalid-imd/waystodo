@@ -38,7 +38,7 @@ export default Login = ({ navigation }) => {
         body,
         config
       );
-      console.log(response);
+      //console.log(response);
 
       if (response) {
         await AsyncStorage.setItem("token", response.data.token);
@@ -46,7 +46,7 @@ export default Login = ({ navigation }) => {
 
       const value = await AsyncStorage.getItem("token");
       if (value !== null) {
-        console.log(value);
+        //console.log(value);
         navigation.navigate("my app");
       }
     } catch (error) {

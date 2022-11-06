@@ -1,15 +1,5 @@
 import React from "react";
-import {
-  ScrollView,
-  Text,
-  Input,
-  Button,
-  VStack,
-  Box,
-  HStack,
-  Center,
-  FlatList,
-} from "native-base";
+import { Text, Input, Button, VStack, Box, FlatList } from "native-base";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
