@@ -21,6 +21,7 @@ export default AddList = () => {
   const [data, setData] = React.useState([]);
   const [form, setForm] = React.useState({
     name: "",
+    date: new Date(),
   });
 
   const getData = async () => {
@@ -134,7 +135,7 @@ export default AddList = () => {
           </FormControl>
           <Button
             onValueChange={(value) => handleOnChange("date", value)}
-            value={form.date}
+            value={new Date()}
             variant="outline"
             w="270"
             onPress={() => setShowModal(true)}

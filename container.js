@@ -87,7 +87,7 @@ export default Container = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="detaillist"
+          name="detail list"
           component={DetailList}
           //options={{ headerShown: false }}
         />

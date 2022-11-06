@@ -24,34 +24,7 @@ export default ListTodo = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false);
   const [date, setDate] = useState();
   const [data, setData] = React.useState([]);
-  const [dataUser, setDataUser] = React.useState([]);
-
-  const getDataUser = async () => {
-    try {
-      const token = await AsyncStorage.getItem("token");
-      if (token === null) {
-        navigation.navigate("Login");
-      }
-
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      };
-      const res = await axios.get(
-        "https://api.v2.kontenbase.com/query/api/v1/a5d9c191-8415-482a-8df3-bb20787a8b23/Users",
-        config
-      );
-      setDataUser(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  React.useEffect(() => {
-    getDataUser();
-  }, [dataUser]);
+  const [dataCategory, setDataCategory] = React.useState([]);
 
   const getData = async () => {
     try {
@@ -78,6 +51,38 @@ export default ListTodo = ({ navigation }) => {
   React.useEffect(() => {
     getData();
   }, [data]);
+
+  const getDataCategory = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (token === null) {
+        navigation.navigate("Login");
+      }
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      };
+
+      //setDataLoading(true);
+
+      const res = await axios.get(
+        "https://api.kontenbase.com/query/api/v1/a5d9c191-8415-482a-8df3-bb20787a8b23/categories",
+        config
+      );
+      setDataCategory(res.data);
+      //setDataLoading(false);
+    } catch (error) {
+      console.log(error);
+      //setDataLoading(false);
+    }
+  };
+
+  React.useEffect(() => {
+    getDataCategory();
+  }, [dataCategory]);
 
   return (
     <ScrollView w="full" mt="10" padding="5">
@@ -135,11 +140,9 @@ export default ListTodo = ({ navigation }) => {
           }}
           mt="1"
         >
-          <Select.Item label="UX Research" value="ux" />
-          <Select.Item label="Web Development" value="web" />
-          <Select.Item label="Cross Platform Development" value="cross" />
-          <Select.Item label="UI Designing" value="ui" />
-          <Select.Item label="Backend Development" value="backend" />
+          {dataCategory.map((item) => {
+            return <Select.Item label={item.name} value={item.name} />;
+          })}
         </Select>
 
         <Select
@@ -153,8 +156,7 @@ export default ListTodo = ({ navigation }) => {
           }}
           mt="1"
         >
-          <Select.Item label="Holding" value="holding" />
-          <Select.Item label="Started" value="started" />
+          <Select.Item label="on going" value="on going" />
           <Select.Item label="finished" value="finished" />
         </Select>
       </HStack>
@@ -175,7 +177,7 @@ export default ListTodo = ({ navigation }) => {
                   <Text
                     bold
                     fontSize="xs"
-                    onPress={() => navigation.navigate("detaillist", { item })}
+                    onPress={() => navigation.navigate("detail list", { item })}
                   >
                     {item.category} - {item.name}
                   </Text>
@@ -183,7 +185,7 @@ export default ListTodo = ({ navigation }) => {
                     <Text fontSize="2xs">{item.description}</Text>
                   </View>
                   <Text fontSize="2xs" mt={3}>
-                    12 nov
+                    {item.date}
                   </Text>
                 </Box>
                 <Box w="23%">

@@ -114,15 +114,21 @@ export default AddCategories = () => {
       </Box>
       <Box>
         <FlatList
-          w="full"
-          space={2}
           mt="6"
           data={data}
           key={(item) => item.index}
           renderItem={({ item }) => (
-            <Button size="sm" variant="solid" mb="5">
-              {item.name}
-            </Button>
+            <Box
+              backgroundColor="blue.400"
+              mb="3"
+              padding={1}
+              borderRadius={5}
+              alignItems="center"
+            >
+              <Text bold color="white">
+                {item.name}
+              </Text>
+            </Box>
           )}
         />
       </Box>
