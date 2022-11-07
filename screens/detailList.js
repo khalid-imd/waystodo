@@ -40,6 +40,7 @@ export default DetailList = ({ route }) => {
                     source={StatusChecked}
                     resizeMode="contain"
                     alignItems="center"
+                    alt="status "
                   />
                 </Box>
               </VStack>

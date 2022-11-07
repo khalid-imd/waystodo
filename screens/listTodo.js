@@ -25,6 +25,7 @@ export default ListTodo = ({ navigation }) => {
   const [date, setDate] = useState();
   const [data, setData] = React.useState([]);
   const [dataCategory, setDataCategory] = React.useState([]);
+  const [dataUser, setDataUser] = React.useState([]);
 
   const getData = async () => {
     try {
@@ -65,36 +66,68 @@ export default ListTodo = ({ navigation }) => {
           Authorization: "Bearer " + token,
         },
       };
-
-      //setDataLoading(true);
-
       const res = await axios.get(
         "https://api.kontenbase.com/query/api/v1/a5d9c191-8415-482a-8df3-bb20787a8b23/categories",
         config
       );
       setDataCategory(res.data);
-      //setDataLoading(false);
     } catch (error) {
       console.log(error);
-      //setDataLoading(false);
     }
   };
-
   React.useEffect(() => {
     getDataCategory();
   }, [dataCategory]);
+
+  const getDataUser = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (token === null) {
+        navigation.navigate("login");
+      }
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      };
+      const res = await axios.get(
+        "https://api.v2.kontenbase.com/query/api/v1/a5d9c191-8415-482a-8df3-bb20787a8b23/Users",
+        config
+      );
+      setDataUser(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  React.useEffect(() => {
+    getDataUser();
+  }, [dataUser]);
+
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem("token");
+    navigation.navigate("login");
+  };
 
   return (
     <ScrollView w="full" mt="10" padding="5">
       <HStack>
         <Box w="75%">
+          {/* {dataUser.map((item) => {
+            return ( */}
           <Text bold fontSize="xl" w="64">
-            Hi Khalid
+            Hi {dataUser.firstName}
           </Text>
+          {/* );
+          })} */}
           <Text color="red.400">{data.length} List</Text>
         </Box>
         <Box w="25%" alignItems="center">
-          <Image source={Profile} resizeMode="contain" />
+          <Image source={Profile} resizeMode="contain" alt="profile" />
+          <Button mt="5px" variant="subtle" onPress={handleLogout}>
+            logout
+          </Button>
         </Box>
       </HStack>
 

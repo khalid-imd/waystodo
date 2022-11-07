@@ -1,5 +1,14 @@
 import React from "react";
-import { Text, Input, Button, VStack, Box, FlatList } from "native-base";
+import {
+  Text,
+  Input,
+  Button,
+  VStack,
+  Box,
+  FlatList,
+  View,
+  ScrollView,
+} from "native-base";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -83,7 +92,7 @@ export default AddCategories = () => {
   //console.log("dataaaaaaaaaaaaa", data);
 
   return (
-    <VStack mt="20" padding={5}>
+    <ScrollView mt="20" padding={5}>
       <Box>
         <Text bold fontSize="xl">
           Add Category
@@ -107,31 +116,30 @@ export default AddCategories = () => {
           </Button>
         </VStack>
       </Box>
-      <Box>
+      <Box mb="10px">
         <Text mt={16} bold fontSize="xl" w="full">
           List Category
         </Text>
       </Box>
       <Box>
-        <FlatList
-          mt="6"
-          data={data}
-          key={(item) => item.index}
-          renderItem={({ item }) => (
+        {data.map((item) => {
+          return (
             <Box
               backgroundColor="blue.400"
-              mb="3"
+              mb={3}
               padding={1}
               borderRadius={5}
               alignItems="center"
             >
-              <Text bold color="white">
-                {item.name}
-              </Text>
+              <View>
+                <Text bold color="white">
+                  {item.name}
+                </Text>
+              </View>
             </Box>
-          )}
-        />
+          );
+        })}
       </Box>
-    </VStack>
+    </ScrollView>
   );
 };
